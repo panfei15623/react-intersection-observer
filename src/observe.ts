@@ -59,7 +59,7 @@ export function optionsToId(options: IntersectionObserverInit) {
 
 function createObserver(options: IntersectionObserverInit) {
   // Create a unique ID for this observer instance, based on the root, root margin and threshold.
-  const id = optionsToId(options);
+  const id = optionsToId(options); // 对于同一个 root 下的监听做合并操作，生成 observerId 作为唯一标识，这个标识由 getRootId、rootMargin、threshold 等共同决定
   let instance = observerMap.get(id);
 
   if (!instance) {
@@ -102,7 +102,7 @@ function createObserver(options: IntersectionObserverInit) {
       elements,
     };
 
-    observerMap.set(id, instance);
+    observerMap.set(id, instance); // observerMap 保证同一 root 下 IntersectionObserver 实例唯一
   }
 
   return instance;
@@ -146,7 +146,7 @@ export function observe(
   // Register the callback listener for this element
   const callbacks = elements.get(element) || [];
   if (!elements.has(element)) {
-    elements.set(element, callbacks);
+    elements.set(element, callbacks); // 存了 element 的 callbacks
   }
 
   callbacks.push(callback);
